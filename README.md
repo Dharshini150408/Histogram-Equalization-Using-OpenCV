@@ -34,43 +34,17 @@ The program performs the following operations:
 
 ### Step 1:
 Import the required libraries: OpenCV, NumPy, and Matplotlib.
-```
-import cv2
-import numpy as np
-import matplotlib.pyplot as plt
 
-img = cv2.imread('rose.jpg', cv2.IMREAD_GRAYSCALE)
-
-plt.imshow(img, cmap='gray')
-plt.title('Original Rose Image')
-plt.axis('off')
-plt.show()
-```
 ### Step 2:
 Read the image `parrot.jpg` in grayscale format.
-```
-plt.hist(img.ravel(), 256, range=[0,256])
-plt.title('Original Image Histogram')
-plt.xlabel('Pixel Intensity')
-plt.ylabel('Frequency')
-plt.show()
 
-```
 
 ### Step 3:
 Display the grayscale image and plot its histogram.
-```
-img_eq = cv2.equalizeHist(img)
-```
+
 ### Step 4:
 Apply histogram equalization using `cv2.equalizeHist()` to enhance contrast.
-```
-plt.hist(img_eq.ravel(), 256, range=[0,256])
-plt.title('Equalized Histogram')
-plt.xlabel('Pixel Intensity')
-plt.ylabel('Frequency')
-plt.show()
-```
+
 
 ### Step 5:
 Display original grayscale image, its histogram, enhanced image, and its histogram using a 2 × 2 grid.
@@ -150,38 +124,127 @@ plt.show()
 ---
 
 ## Program
+## Grayscale Histogram Equlaization
+```
 
-### Developed By:
-**Name:** DHARSHINI V
+# Read the image in grayscale
+gray = cv2.imread('parrot.jpg', 0)
 
-### Register No:
-212225040184
+# Check whether image is loaded
+if gray is None:
+    print("Image not found. Check the file name and folder.")
+else:
+    # Display original grayscale image and histogram
+    plt.figure(figsize=(10, 8))
 
----
+    plt.subplot(2, 2, 1)
+    plt.imshow(gray, cmap='gray')
+    plt.title('Original Grayscale Image')
+    plt.axis('off')
+
+    plt.subplot(2, 2, 2)
+    plt.hist(gray.ravel(), 256, [0, 256], color='black')
+    plt.title('Original Histogram')
+
+    # Apply histogram equalization
+    equalized = cv2.equalizeHist(gray)
+
+    plt.subplot(2, 2, 3)
+    plt.imshow(equalized, cmap='gray')
+    plt.title('Enhanced Grayscale Image')
+    plt.axis('off')
+
+    plt.subplot(2, 2, 4)
+    plt.hist(equalized.ravel(), 256, [0, 256], color='black')
+    plt.title('Enhanced Histogram')
+
+    plt.tight_layout()
+    plt.show()
+```
+## Colour Image Histogram Equalization
+```
+
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Read the color image
+img = cv2.imread("parrot.jpg")
+
+if img is None:
+    print("Error: parrot.jpg not found!")
+else:
+    # Split B, G, R channels
+    b, g, r = cv2.split(img)
+
+    # Convert BGR to HSV
+    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+
+    # Split H, S, V channels
+    h, s, v = cv2.split(hsv)
+
+    # Apply histogram equalization to V channel
+    v_eq = cv2.equalizeHist(v)
+
+    # Merge HSV channels
+    hsv_eq = cv2.merge((h, s, v_eq))
+
+    # Convert HSV back to BGR
+    enhanced = cv2.cvtColor(hsv_eq, cv2.COLOR_HSV2BGR)
+
+    # Display images and histograms
+    plt.figure(figsize=(12, 8))
+
+    # Original color image
+    plt.subplot(2, 2, 1)
+    plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+    plt.title("Original Color Image")
+    plt.axis("off")
+
+    # Original B, G, R histograms
+    plt.subplot(2, 2, 2)
+    plt.hist(b.ravel(), 256, [0, 256],
+             color="blue", alpha=0.5, label="Blue")
+    plt.hist(g.ravel(), 256, [0, 256],
+             color="green", alpha=0.5, label="Green")
+    plt.hist(r.ravel(), 256, [0, 256],
+             color="red", alpha=0.5, label="Red")
+    plt.title("Original BGR Histograms")
+    plt.xlabel("Pixel Intensity")
+    plt.ylabel("Frequency")
+    plt.legend()
+
+    # Enhanced color image
+    plt.subplot(2, 2, 3)
+    plt.imshow(cv2.cvtColor(enhanced, cv2.COLOR_BGR2RGB))
+    plt.title("Enhanced Color Image")
+    plt.axis("off")
+
+    # Enhanced V channel histogram
+    plt.subplot(2, 2, 4)
+    plt.hist(v_eq.ravel(), 256, [0, 256], color="purple")
+    plt.title("Enhanced V Channel Histogram")
+    plt.xlabel("Pixel Intensity")
+    plt.ylabel("Frequency")
+
+    plt.tight_layout()
+    plt.show()
+
+    # Save enhanced image
+    cv2.imwrite("enhanced_color.jpg", enhanced)
+
+    print("Color histogram equalization completed successfully!")
+    print("Saved as enhanced_color.jpg")
+```
 
 ##  Output
-
-<img width="761" height="507" alt="628221148-e988ad81-5246-49e2-a032-df915011a3a3" src="https://github.com/user-attachments/assets/ca4ee282-85e5-491d-92f0-c4f98e6b4359" />
-
-
-<img width="770" height="562" alt="628221777-2a9fcc3c-f4f8-4969-96f8-4e01dc3dc7a6" src="https://github.com/user-attachments/assets/404681d2-3e02-41e7-a0f8-81803c1ce757" />
-
-
-<img width="837" height="627" alt="628221902-8f6482dd-462b-4ed0-a8b8-072a8863a61f" src="https://github.com/user-attachments/assets/03e4081a-07de-4756-ab90-300cad560d35" />
-
-
-<img width="781" height="495" alt="628222005-06bb8d76-6166-466f-864d-ef49a4de453e" src="https://github.com/user-attachments/assets/8a5f9479-fbd5-4c5f-9108-98e3ce115d16" />
-
-
-<img width="746" height="346" alt="628222250-52760947-17c9-423a-9316-69d6f34879c0" src="https://github.com/user-attachments/assets/dfb678ad-73d5-4d0f-9851-ab0f84bcd1ff" />
-
-
-<img width="881" height="791" alt="628222453-9fa82cd4-d3ce-4a19-8920-d2ebbab0c817" src="https://github.com/user-attachments/assets/a42573c1-2b6e-48ef-a76d-da4f8791de33" />
 
 
 
 
 ### Grayscale Histogram Equalization
+<img width="1887" height="982" alt="image" src="https://github.com/user-attachments/assets/44550056-c121-446d-b3b1-1d3617c76a1e" />
+
 
 - Original grayscale image is displayed  
 - Histogram of original grayscale image is plotted  
@@ -189,6 +252,7 @@ plt.show()
 - Histogram of enhanced grayscale image shows improved contrast  
 
 ### Color Image Histogram Equalization
+<img width="1877" height="955" alt="image" src="https://github.com/user-attachments/assets/ca331eb0-f8df-470f-b892-52a51df592f3" />
 
 - Original color image is displayed  
 - Histogram of B, G, R channels is plotted  
