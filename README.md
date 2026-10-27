@@ -48,80 +48,22 @@ Apply histogram equalization using `cv2.equalizeHist()` to enhance contrast.
 
 ### Step 5:
 Display original grayscale image, its histogram, enhanced image, and its histogram using a 2 × 2 grid.
-```
-plt.imshow(img_eq, cmap='gray')
-plt.title('Equalized Rose Image')
-plt.axis('off')
-plt.show()
 
-```
 ### Step 6:
 Read the same image in color format.
-```
-img = cv2.imread('rose.jpg', cv2.IMREAD_COLOR)
 
-plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-plt.title('Original Rose Image')
-plt.axis('off')
-plt.show()
-
-img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-
-```
 ### Step 7:
 Split the image into B, G, R channels and plot their histograms.
-```
-img_hsv[:, :, 2] = cv2.equalizeHist(img_hsv[:, :, 2])
-```
+
 ### Step 8:
 Convert the image from BGR to HSV color space.
-```
-img_eq = cv2.cvtColor(img_hsv, cv2.COLOR_HSV2BGR)
-```
+
 ### Step 9:
 Apply histogram equalization on the V (Value) channel.
-```
-plt.figure(figsize=(10,5))
 
-plt.subplot(121)
-plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-plt.title('Original Rose Image')
-plt.axis('off')
-
-plt.subplot(122)
-plt.imshow(cv2.cvtColor(img_eq, cv2.COLOR_BGR2RGB))
-plt.title('Equalized Rose Image')
-plt.axis('off')
-
-plt.show()
-```
 
 ### Step 10:
 Display original color image, histogram, enhanced image, and enhanced histogram using a 2 × 2 grid.
-```
-plt.figure(figsize=(12,10))
-
-plt.subplot(221)
-plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-plt.title('Original Rose Image')
-plt.axis('off')
-
-plt.subplot(222)
-plt.imshow(cv2.cvtColor(img_eq, cv2.COLOR_BGR2RGB))
-plt.title('Equalized Rose Image')
-plt.axis('off')
-
-plt.subplot(223)
-plt.hist(img.ravel(), 256, range=[0,256])
-plt.title('Original Histogram')
-
-plt.subplot(224)
-plt.hist(img_eq.ravel(), 256, range=[0,256])
-plt.title('Equalized Histogram')
-
-plt.show()
-```
----
 
 ## Program
 ## Grayscale Histogram Equlaization
